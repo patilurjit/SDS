@@ -96,6 +96,9 @@ def main():
 
 	get_Q1(Q1)
 	get_Q2(Q2)
+	
+	if float(Q1) > float(Q2):
+		st.error("Invalid Input : Start Quarter greater than End Quarter")
 
 	def multi_fun(y = []):
 
