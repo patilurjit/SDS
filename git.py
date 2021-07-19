@@ -119,8 +119,6 @@ def main():
 
 	df2 = multi_fun(ft_select)
 	
-	st.table(df2)
-	
 	if st.sidebar.checkbox("Filters"):
 		column = st.sidebar.multiselect("Columns",(ft_select))
 
