@@ -106,11 +106,11 @@ def main():
 		for x in y:
 
 			if x == 'Quarterly Price Change':
-				df1[x] = ((df1[list2[1]]-df1[list2[0]])/df1[list2[0]])*100
+				df1[x] = (((df1[list2[1]]-df1[list2[0]])/df1[list2[0]])*100).round(2)
 				my_list1.append(x)
 
 			if x == 'Retail Shareholder Change':
-				df1[x] = ((df1[list2[3]]-df1[list2[2]])/df1[list2[2]])*100
+				df1[x] = (((df1[list2[3]]-df1[list2[2]])/df1[list2[2]])*100).round(2)
 				my_list1.append(x)
 
 		df1 = df1[my_list1]
@@ -125,7 +125,7 @@ def main():
 		for i in range(0, len(column)):
 			name = "filter" + str(i+1)
 			filter0 = st.sidebar.text_input(column[i],'>10',key = name)
-			df2 = eval(f"df2[df2['{column[i]}']{filter0}]")
+			df2 = eval(f"df2[df2['{column[i]}']{filter0}].round(2)")
 
 		df2 = df2.rename(columns={'name.of.the.scrip':'Name of Scrip'})
 		df2.index = range(len(df2))
