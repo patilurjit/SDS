@@ -127,6 +127,8 @@ def main():
 			filter0 = st.sidebar.text_input(column[i],'>10',key = name)
 			df2 = eval(f"df2[df2['{column[i]}']{filter0}]")
 
+		df2.index = range(len(df2))
+		df2.index += 1
 		st.table(df2)
 
 	if ft_select == []:
