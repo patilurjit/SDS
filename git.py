@@ -101,7 +101,7 @@ def main():
 
 		df1 = df
 
-		my_list1 = ['Index','name.of.the.scrip']
+		my_list1 = ['name.of.the.scrip']
 
 		for x in y:
 
