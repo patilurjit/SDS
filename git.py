@@ -100,54 +100,55 @@ def main():
 	if float(Q1) > float(Q2):
 		st.error("Invalid Input : Start Quarter greater than End Quarter")
 
-	def multi_fun(y = []):
+	else:
+		def multi_fun(y = []):
 
-		df1 = df
+			df1 = df
 
-		my_list1 = ['name.of.the.scrip']
+			my_list1 = ['name.of.the.scrip']
 
-		for x in y:
+			for x in y:
 
-			if x == 'Quarterly Price Change':
-				df1[x] = (((df1[list2[1]]-df1[list2[0]])/df1[list2[0]])*100).round(2)
-				my_list1.append(x)
+				if x == 'Quarterly Price Change':
+					df1[x] = (((df1[list2[1]]-df1[list2[0]])/df1[list2[0]])*100).round(2)
+					my_list1.append(x)
 
-			if x == 'Retail Shareholder Change':
-				df1[x] = (((df1[list2[3]]-df1[list2[2]])/df1[list2[2]])*100).round(2)
-				my_list1.append(x)
+				if x == 'Retail Shareholder Change':
+					df1[x] = (((df1[list2[3]]-df1[list2[2]])/df1[list2[2]])*100).round(2)
+					my_list1.append(x)
 
-		df1 = df1[my_list1]
+			df1 = df1[my_list1]
 
-		return df1
+			return df1
 
-	df2 = multi_fun(ft_select)
-	
-	if st.sidebar.checkbox("Filters"):
-		column = st.sidebar.multiselect("Columns",(ft_select))
+		df2 = multi_fun(ft_select)
 
-		for i in range(0, len(column)):
-			name = "filter" + str(i+1)
-			filter0 = st.sidebar.text_input(column[i],'>10',key = name)
-			df2 = eval(f"df2[df2['{column[i]}']{filter0}].round(2)")
+		if st.sidebar.checkbox("Filters"):
+			column = st.sidebar.multiselect("Columns",(ft_select))
 
-		df2 = df2.rename(columns={'name.of.the.scrip':'Name of Scrip'})
-		df2.index = range(len(df2))
-		df2.index += 1
-		st.table(df2)
+			for i in range(0, len(column)):
+				name = "filter" + str(i+1)
+				filter0 = st.sidebar.text_input(column[i],'>10',key = name)
+				df2 = eval(f"df2[df2['{column[i]}']{filter0}].round(2)")
 
-	if ft_select == []:
-		df2 = df
-		df2 = df2.rename(columns={'name.of.the.scrip':'Name of Scrip'})
+			df2 = df2.rename(columns={'name.of.the.scrip':'Name of Scrip'})
+			df2.index = range(len(df2))
+			df2.index += 1
+			st.table(df2)
 
-	def get_file(df):
+		if ft_select == []:
+			df2 = df
+			df2 = df2.rename(columns={'name.of.the.scrip':'Name of Scrip'})
 
-		csv = df2.to_csv().encode()
-		b64 = base64.b64encode(csv).decode()
-		href = f'<a href="data:file/csv;base64,{b64}" download="Scanner.csv" target="_blank">Download CSV File</a>'
-		st.sidebar.markdown(href, unsafe_allow_html=True)
+		def get_file(df):
 
-	if st.sidebar.button("Get CSV"):
-		get_file(df2)
+			csv = df2.to_csv().encode()
+			b64 = base64.b64encode(csv).decode()
+			href = f'<a href="data:file/csv;base64,{b64}" download="Scanner.csv" target="_blank">Download CSV File</a>'
+			st.sidebar.markdown(href, unsafe_allow_html=True)
+
+		if st.sidebar.button("Get CSV"):
+			get_file(df2)
 
 if __name__ == '__main__':
 	main()
