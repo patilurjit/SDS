@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore")
 def main():
 
 	def load_data():
-		data = pd.read_csv("C:\\01Data\\Urjit\\Stonks\\Final_Data.csv")
+		data = pd.read_csv("./Final_Data.csv")
 		return data
 
 	df = load_data()
