@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore")
 def main():
 
 	def load_data():
-		data = pd.read_csv("./Final_Data.csv")
+		data = pd.read_csv("C:\\01Data\\Urjit\\Stonks\\Final_Data.csv")
 		return data
 
 	df = load_data()
@@ -17,8 +17,8 @@ def main():
 	arr1 = df.columns.values
 	main_list = arr1.ravel().tolist()
 
-	col_dict = {'Quarterly Price Change':'Price_',
-            	'Retail Shareholder Change':'no.of.shareholder.below.1.lakh.nominal.capital_',
+	col_dict = {'Quarterly Price Change %':'Price_',
+            	'Retail Shareholder Change %':'no.of.shareholder.below.1.lakh.nominal.capital_',
             	'Promoter Holding Change':'total.promoter.holding.in',
             	'Institutional Holding Change':'total.institutional.holding.in',
             	'Mutual Fund Holding Change':'MF.holding.in',
@@ -26,6 +26,7 @@ def main():
             	'AIF Holding Change':'AIF.holding.in',
             	'Pension Fund Holding Change':'Pension.Fund.holding.in',
             	'Total Non Institutional Holding Change':'total.non.institutional.holding.in',
+            	'Retail Shareholder Change':'retail.shareholder.in',
             	'HNI Holding Change':'HNI.holding.in'}
 
 	col_list = []
@@ -37,19 +38,19 @@ def main():
 
 		return col_list
 
-	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t"]
+	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v"]
 
 	st.title("Scanner")
 
-	ft_select = st.sidebar.multiselect("Functionality",("Quarterly Price Change","Retail Shareholder Change","Promoter Holding Change",
+	ft_select = st.sidebar.multiselect("Functionality",("Quarterly Price Change %","Retail Shareholder Change %","Promoter Holding Change",
 									   "Institutional Holding Change","Mutual Fund Holding Change","Insurance Companies Holding Change",
 									   "AIF Holding Change","Pension Fund Holding Change","Total Non Institutional Holding Change",
-									   "HNI Holding Change"))
+									   "Retail Shareholder Change","HNI Holding Change"))
 
-	Q2 = st.sidebar.selectbox("Enter End Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
+	Q1 = st.sidebar.selectbox("Enter Start Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
 						     '201703','201706','201709','201712','201803','201806','201809','201812','201903','201906','201909','201912','202003',
 						     '202006','202009','202012','202103'),key = 'quarter2')
-	Q1 = st.sidebar.selectbox("Enter Start Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
+	Q2 = st.sidebar.selectbox("Enter End Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
 						     '201703','201706','201709','201712','201803','201806','201809','201812','201903','201906','201909','201912','202003',
 						     '202006','202009','202012','202103'),key = 'quarter1')
 
@@ -57,14 +58,14 @@ def main():
 
 		for x in ft_select:
 
-			if x == 'Quarterly Price Change':
+			if x == 'Quarterly Price Change %':
 				list1 = get_list(x)
 				for col in list1:
 					if Q1 in col:
 						price1 = col
 						list2[0] = price1
 
-			if x == 'Retail Shareholder Change':
+			if x == 'Retail Shareholder Change %':
 				list1 = get_list(x)
 				for col in list1:
 					if Q1 in col:
@@ -120,25 +121,32 @@ def main():
 						tnh1 = col
 						list2[16] = tnh1
 
+			if x == 'Retail Shareholder Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						rc1 = col
+						list2[18] = rc1
+
 			if x == 'HNI Holding Change':
 				list1 = get_list(x)
 				for col in list1:
 					if Q1 in col:
 						hh1 = col
-						list2[18] = hh1
+						list2[20] = hh1
 
 	def get_Q2(Q2):
 
 		for x in ft_select:
 			
-			if x == 'Quarterly Price Change':
+			if x == 'Quarterly Price Change %':
 				list1 = get_list(x)
 				for col in list1:
 					if Q2 in col:
 						price2 = col
 						list2[1] = price2
 
-			if x == 'Retail Shareholder Change':
+			if x == 'Retail Shareholder Change %':
 				list1 = get_list(x)
 				for col in list1:
 					if Q2 in col:
@@ -194,12 +202,19 @@ def main():
 						tnh2 = col
 						list2[17] = tnh2
 
+			if x == 'Retail Shareholder Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						rc2 = col
+						list2[19] = rc2
+
 			if x == 'HNI Holding Change':
 				list1 = get_list(x)
 				for col in list1:
 					if Q2 in col:
 						hh2 = col
-						list2[19] = hh2
+						list2[21] = hh2
 
 	get_Q1(Q1)
 	get_Q2(Q2)
@@ -216,44 +231,48 @@ def main():
 
 			for x in y:
 
-				if x == 'Quarterly Price Change':
+				if x == 'Quarterly Price Change %':
 					df1[x] = (((df1[list2[1]]-df1[list2[0]])/df1[list2[0]])*100).round(2)
 					my_list1.append(x)
 
-				if x == 'Retail Shareholder Change':
+				if x == 'Retail Shareholder Change %':
 					df1[x] = (((df1[list2[3]]-df1[list2[2]])/df1[list2[2]])*100).round(2)
 					my_list1.append(x)
 
 				if x == 'Promoter Holding Change':
-					df1[x] = (((df1[list2[5]]-df1[list2[4]])/df1[list2[4]])*100).round(2)
+					df1[x] = (df1[list2[5]]-df1[list2[4]]).round(2)
 					my_list1.append(x)
 
 				if x == 'Institutional Holding Change':
-					df1[x] = (((df1[list2[7]]-df1[list2[6]])/df1[list2[6]])*100).round(2)
+					df1[x] = (df1[list2[7]]-df1[list2[6]]).round(2)
 					my_list1.append(x)
 
 				if x == 'Mutual Fund Holding Change':
-					df1[x] = (((df1[list2[9]]-df1[list2[8]])/df1[list2[8]])*100).round(2)
+					df1[x] = (df1[list2[9]]-df1[list2[8]]).round(2)
 					my_list1.append(x)
 
 				if x == 'Insurance Companies Holding Change':
-					df1[x] = (((df1[list2[11]]-df1[list2[10]])/df1[list2[10]])*100).round(2)
+					df1[x] = (df1[list2[11]]-df1[list2[10]]).round(2)
 					my_list1.append(x)
 
 				if x == 'AIF Holding Change':
-					df1[x] = (((df1[list2[13]]-df1[list2[12]])/df1[list2[12]])*100).round(2)
+					df1[x] = (df1[list2[13]]-df1[list2[12]]).round(2)
 					my_list1.append(x)
 
 				if x == 'Pension Fund Holding Change':
-					df1[x] = (((df1[list2[15]]-df1[list2[14]])/df1[list2[14]])*100).round(2)
+					df1[x] = (df1[list2[15]]-df1[list2[14]]).round(2)
 					my_list1.append(x)
 
 				if x == 'Total Non Institutional Holding Change':
-					df1[x] = (((df1[list2[17]]-df1[list2[16]])/df1[list2[16]])*100).round(2)
+					df1[x] = (df1[list2[17]]-df1[list2[16]]).round(2)
+					my_list1.append(x)
+
+				if x == 'Retail Shareholder Change':
+					df1[x] = (df1[list2[19]]-df1[list2[18]]).round(2)
 					my_list1.append(x)
 
 				if x == 'HNI Holding Change':
-					df1[x] = (((df1[list2[19]]-df1[list2[18]])/df1[list2[18]])*100).round(2)
+					df1[x] = (df1[list2[21]]-df1[list2[20]]).round(2)
 					my_list1.append(x)
 
 			df1 = df1[my_list1]
