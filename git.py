@@ -9,46 +9,42 @@ warnings.filterwarnings("ignore")
 def main():
 
 	def load_data():
-		data = pd.read_csv("./FinalData.csv")
+		data = pd.read_csv("C:\\01Data\\Urjit\\Stonks\\Final_Data.csv")
 		return data
 
 	df = load_data()
 
-	col_list1 = ['Price_202103','Price_202012','Price_202009','Price_202006','Price_202003','Price_201912','Price_201909','Price_201906','Price_201903',
-			 'Price_201812','Price_201809','Price_201806','Price_201803','Price_201712','Price_201709','Price_201706','Price_201703','Price_201612',
-			 'Price_201609','Price_201606','Price_201603','Price_201512','Price_201509','Price_201506','Price_201503','Price_201412','Price_201409',
-			 'Price_201406','Price_201403','Price_201312']
+	arr1 = df.columns.values
+	main_list = arr1.ravel().tolist()
 
-	col_list2 = ['no.of.shareholder.below.1.lakh.nominal.capital_202103','no.of.shareholder.below.1.lakh.nominal.capital_202012',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_202009','no.of.shareholder.below.1.lakh.nominal.capital_202006',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_202003','no.of.shareholder.below.1.lakh.nominal.capital_201912',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201909','no.of.shareholder.below.1.lakh.nominal.capital_201906',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201903','no.of.shareholder.below.1.lakh.nominal.capital_201812',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201809','no.of.shareholder.below.1.lakh.nominal.capital_201806',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201803','no.of.shareholder.below.1.lakh.nominal.capital_201712',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201709','no.of.shareholder.below.1.lakh.nominal.capital_201706',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201703','no.of.shareholder.below.1.lakh.nominal.capital_201612',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201609','no.of.shareholder.below.1.lakh.nominal.capital_201606',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201603','no.of.shareholder.below.1.lakh.nominal.capital_201512',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201509','no.of.shareholder.below.1.lakh.nominal.capital_201506',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201503','no.of.shareholder.below.1.lakh.nominal.capital_201412',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201409','no.of.shareholder.below.1.lakh.nominal.capital_201406',
-			 'no.of.shareholder.below.1.lakh.nominal.capital_201403','no.of.shareholder.below.1.lakh.nominal.capital_201312']
+	col_dict = {'Quarterly Price Change':'Price_',
+            	'Retail Shareholder Change':'no.of.shareholder.below.1.lakh.nominal.capital_',
+            	'Promoter Holding Change':'total.promoter.holding.in',
+            	'Institutional Holding Change':'total.institutional.holding.in',
+            	'Mutual Fund Holding Change':'MF.holding.in',
+            	'Insurance Companies Holding Change':'insurance.companies.holding.in',
+            	'AIF Holding Change':'AIF.holding.in',
+            	'Pension Fund Holding Change':'Pension.Fund.holding.in',
+            	'Total Non Institutional Holding Change':'total.non.institutional.holding.in',
+            	'HNI Holding Change':'HNI.holding.in'}
 
-	for col in col_list1:
-		df[col].astype(int)
+	col_list = []
 
-	for col in col_list2:
-		df[col] = df[col].fillna(value=0)
+	def get_list(x):
+		for i in main_list:
+		    if (col_dict.get(x) in i):
+		        col_list.append(i)
 
-	col_dict = {'Quarterly Price Change':col_list1,
-				'Retail Shareholder Change':col_list2}
+		return col_list
 
-	list2 = ["a","b","c","d"]
+	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t"]
 
 	st.title("Scanner")
 
-	ft_select = st.sidebar.multiselect("Functionality",("Quarterly Price Change","Retail Shareholder Change"))
+	ft_select = st.sidebar.multiselect("Functionality",("Quarterly Price Change","Retail Shareholder Change","Promoter Holding Change",
+									   "Institutional Holding Change","Mutual Fund Holding Change","Insurance Companies Holding Change",
+									   "AIF Holding Change","Pension Fund Holding Change","Total Non Institutional Holding Change",
+									   "HNI Holding Change"))
 
 	Q2 = st.sidebar.selectbox("Enter End Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
 						     '201703','201706','201709','201712','201803','201806','201809','201812','201903','201906','201909','201912','202003',
@@ -62,36 +58,148 @@ def main():
 		for x in ft_select:
 
 			if x == 'Quarterly Price Change':
-				list1 = col_dict.get(x)
+				list1 = get_list(x)
 				for col in list1:
 					if Q1 in col:
 						price1 = col
 						list2[0] = price1
 
 			if x == 'Retail Shareholder Change':
-				list1 = col_dict.get(x)
+				list1 = get_list(x)
 				for col in list1:
 					if Q1 in col:
 						rsc1 = col
 						list2[2] = rsc1
+
+			if x == 'Promoter Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						tph1 = col
+						list2[4] = tph1
+
+			if x == 'Institutional Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						ih1 = col
+						list2[6] = ih1
+
+			if x == 'Mutual Fund Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						mfh1 = col
+						list2[8] = mfh1
+
+			if x == 'Insurance Companies Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						ich1 = col
+						list2[10] = ich1
+
+			if x == 'AIF Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						ah1 = col
+						list2[12] = ah1
+
+			if x == 'Pension Fund Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						pfh1 = col
+						list2[14] = pfh1
+
+			if x == 'Total Non Institutional Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						tnh1 = col
+						list2[16] = tnh1
+
+			if x == 'HNI Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						hh1 = col
+						list2[18] = hh1
 
 	def get_Q2(Q2):
 
 		for x in ft_select:
 			
 			if x == 'Quarterly Price Change':
-				list1 = col_dict.get(x)
+				list1 = get_list(x)
 				for col in list1:
 					if Q2 in col:
 						price2 = col
 						list2[1] = price2
 
 			if x == 'Retail Shareholder Change':
-				list1 = col_dict.get(x)
+				list1 = get_list(x)
 				for col in list1:
 					if Q2 in col:
 						rsc2 = col
 						list2[3] = rsc2
+
+			if x == 'Promoter Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						tph2 = col
+						list2[5] = tph2
+
+			if x == 'Institutional Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						ih2 = col
+						list2[7] = ih2
+
+			if x == 'Mutual Fund Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						mfh2 = col
+						list2[9] = mfh2
+
+			if x == 'Insurance Companies Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						ich2 = col
+						list2[11] = ich2
+
+			if x == 'AIF Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						ah2 = col
+						list2[13] = ah2
+
+			if x == 'Pension Fund Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						pfh2 = col
+						list2[15] = pfh2
+
+			if x == 'Total Non Institutional Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						tnh2 = col
+						list2[17] = tnh2
+
+			if x == 'HNI Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						hh2 = col
+						list2[19] = hh2
 
 	get_Q1(Q1)
 	get_Q2(Q2)
@@ -114,6 +222,38 @@ def main():
 
 				if x == 'Retail Shareholder Change':
 					df1[x] = (((df1[list2[3]]-df1[list2[2]])/df1[list2[2]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'Promoter Holding Change':
+					df1[x] = (((df1[list2[5]]-df1[list2[4]])/df1[list2[4]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'Institutional Holding Change':
+					df1[x] = (((df1[list2[7]]-df1[list2[6]])/df1[list2[6]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'Mutual Fund Holding Change':
+					df1[x] = (((df1[list2[9]]-df1[list2[8]])/df1[list2[8]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'Insurance Companies Holding Change':
+					df1[x] = (((df1[list2[11]]-df1[list2[10]])/df1[list2[10]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'AIF Holding Change':
+					df1[x] = (((df1[list2[13]]-df1[list2[12]])/df1[list2[12]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'Pension Fund Holding Change':
+					df1[x] = (((df1[list2[15]]-df1[list2[14]])/df1[list2[14]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'Total Non Institutional Holding Change':
+					df1[x] = (((df1[list2[17]]-df1[list2[16]])/df1[list2[16]])*100).round(2)
+					my_list1.append(x)
+
+				if x == 'HNI Holding Change':
+					df1[x] = (((df1[list2[19]]-df1[list2[18]])/df1[list2[18]])*100).round(2)
 					my_list1.append(x)
 
 			df1 = df1[my_list1]
