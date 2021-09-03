@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore")
 def main():
 
 	def load_data():
-		data = pd.read_csv("./Final_Data.csv")
+		data = pd.read_csv("C:\\01Data\\Urjit\\Stonks\\Final_Data.csv")
 		return data
 
 	df = load_data()
@@ -17,13 +17,15 @@ def main():
 	arr1 = df.columns.values
 	main_list = arr1.ravel().tolist()
 
-	col_dict = {'Quarterly Price Change %':'Price_',
+	col_dict = {'Price (End Quarter)':'Price_',
+				'Quarterly Price Change %':'Price_',
             	'Retail Shareholder Change %':'no.of.shareholder.below.1.lakh.nominal.capital_',
             	'Promoter Holding Change':'total.promoter.holding.in',
             	'Institutional Holding Change':'total.institutional.holding.in',
             	'Mutual Fund Holding Change':'MF.holding.in',
             	'Insurance Companies Holding Change':'insurance.companies.holding.in',
             	'AIF Holding Change':'AIF.holding.in',
+            	'FPI Holding Change':'FPI_Holding_',
             	'Pension Fund Holding Change':'Pension.Fund.holding.in',
             	'Total Non Institutional Holding Change':'total.non.institutional.holding.in',
             	'Retail Shareholder Change':'retail.shareholder.in',
@@ -38,14 +40,14 @@ def main():
 
 		return col_list
 
-	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v"]
+	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x"]
 
 	st.title("Scanner")
 
-	ft_select = st.sidebar.multiselect("Functionality",("Quarterly Price Change %","Retail Shareholder Change %","Promoter Holding Change",
+	ft_select = st.sidebar.multiselect("Functionality",("Price (End Quarter)","Quarterly Price Change %","Retail Shareholder Change %","Promoter Holding Change",
 									   "Institutional Holding Change","Mutual Fund Holding Change","Insurance Companies Holding Change",
-									   "AIF Holding Change","Pension Fund Holding Change","Total Non Institutional Holding Change",
-									   "Retail Shareholder Change","HNI Holding Change"))
+									   "AIF Holding Change","FPI Holding Change","Pension Fund Holding Change",
+									   "Total Non Institutional Holding Change","Retail Shareholder Change","HNI Holding Change"))
 
 	Q1 = st.sidebar.selectbox("Enter Start Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
 						     '201703','201706','201709','201712','201803','201806','201809','201812','201903','201906','201909','201912','202003',
@@ -107,6 +109,13 @@ def main():
 						ah1 = col
 						list2[12] = ah1
 
+			if x == 'FPI Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						fhc1 = col
+						list2[22] = fhc1
+
 			if x == 'Pension Fund Holding Change':
 				list1 = get_list(x)
 				for col in list1:
@@ -138,6 +147,13 @@ def main():
 	def get_Q2(Q2):
 
 		for x in ft_select:
+
+			if x == 'Price (End Quarter)':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						p2 = col
+						list2[1] = p2
 			
 			if x == 'Quarterly Price Change %':
 				list1 = get_list(x)
@@ -188,6 +204,13 @@ def main():
 						ah2 = col
 						list2[13] = ah2
 
+			if x == 'FPI Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						fhc2 = col
+						list2[23] = fhc2
+
 			if x == 'Pension Fund Holding Change':
 				list1 = get_list(x)
 				for col in list1:
@@ -231,6 +254,10 @@ def main():
 
 			for x in y:
 
+				if x == 'Price (End Quarter)':
+					df1[x] = df1[list2[1]].round(2)
+					my_list1.append(x)
+
 				if x == 'Quarterly Price Change %':
 					df1[x] = (((df1[list2[1]]-df1[list2[0]])/df1[list2[0]])*100).round(2)
 					my_list1.append(x)
@@ -257,6 +284,10 @@ def main():
 
 				if x == 'AIF Holding Change':
 					df1[x] = (df1[list2[13]]-df1[list2[12]]).round(2)
+					my_list1.append(x)
+
+				if x == 'FPI Holding Change':
+					df1[x] = (df1[list2[23]]-df1[list2[22]]).round(2)
 					my_list1.append(x)
 
 				if x == 'Pension Fund Holding Change':
@@ -287,6 +318,7 @@ def main():
 			for i in range(0, len(column)):
 				name = "filter" + str(i+1)
 				filter0 = st.sidebar.text_input(column[i],'>10',key = name)
+				#df2 = eval(f"df2[df2['{column[i]}']{filter0}].sort_values(by = '{column[i]}', ascending = False).round(2)")
 				df2 = eval(f"df2[df2['{column[i]}']{filter0}].round(2)")
 
 			df2 = df2.rename(columns={'name.of.the.scrip':'Name of Scrip'})
