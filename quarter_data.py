@@ -87,11 +87,13 @@ def main():
 
 	df1 = get_data(scrip)
 	df1.index += 1
+	
+	if st.button("Show"):
+	
+		if st.button("Get CSV"):
+			get_file(df1)
 
-	if st.sidebar.button("Get CSV"):
-		get_file(df1)
-
-	st.table(df1)
+		st.table(df1)
 
 if __name__ == '__main__':
 	main()
