@@ -88,7 +88,7 @@ def main():
 	df1 = get_data(scrip)
 	df1.index += 1
 
-	if st.button("Get CSV"):
+	if st.sidebar.button("Get CSV"):
 		get_file(df1)
 
 	st.table(df1)
