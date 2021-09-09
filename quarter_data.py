@@ -35,8 +35,6 @@ def main():
 	list_quarter = ['201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612','201703','201706',
                 '201709','201712','201803','201806','201809','201812','201903','201906','201909','201912','202003','202006','202009','202012','202103']
 
-	list_quarter.reverse()
-
 	list_cols = ['Price_','no.of.shareholder.below.1.lakh.nominal.capital_','total.promoter.holding.in','total.institutional.holding.in',
 	             'MF.holding.in','insurance.companies.holding.in','AIF.holding.in','FPI_Holding_','Pension.Fund.holding.in',
 	             'total.non.institutional.holding.in','retail.shareholder.in','HNI.holding.in']
