@@ -18,18 +18,19 @@ def main():
 	main_list = arr1.ravel().tolist()
 
 	col_dict = {'Price (End Quarter)':'Price_',
-				'Quarterly Price Change %':'Price_',
-            	'Retail Shareholder Change %':'no.of.shareholder.below.1.lakh.nominal.capital_',
-            	'Promoter Holding Change':'total.promoter.holding.in',
-            	'Institutional Holding Change':'total.institutional.holding.in',
-            	'Mutual Fund Holding Change':'MF.holding.in',
-            	'Insurance Companies Holding Change':'insurance.companies.holding.in',
-            	'AIF Holding Change':'AIF.holding.in',
-            	'FPI Holding Change':'FPI_Holding_',
-            	'Pension Fund Holding Change':'Pension.Fund.holding.in',
-            	'Total Non Institutional Holding Change':'total.non.institutional.holding.in',
-            	'Retail Shareholder Change':'retail.shareholder.in',
-            	'HNI Holding Change':'HNI.holding.in'}
+					  'Quarterly Price Change %':'Price_',
+            				  'Retail Shareholder Change %':'no.of.shareholder.below.1.lakh.nominal.capital_',
+            				  'Promoter Holding Change':'total.promoter.holding.in',
+            				  'Institutional Holding Change':'total.institutional.holding.in',
+            				  'Mutual Fund Holding Change':'MF.holding.in',
+            				  'Insurance Companies Holding Change':'insurance.companies.holding.in',
+            				  'AIF Holding Change':'AIF.holding.in',
+            				  'FPI Holding Change':'FPI_Holding_',
+            				  'Pension Fund Holding Change':'Pension.Fund.holding.in',
+            				  'Total Non Institutional Holding Change':'total.non.institutional.holding.in',
+            				  'Retail Shareholder Change':'retail.shareholder.in',
+            				  'HNI Holding Change':'HNI.holding.in',
+		   			  'Other Non Institutional Holding Change':'Other_Non_Institutional_Holding_'}
 
 	col_list = []
 
@@ -40,14 +41,15 @@ def main():
 
 		return col_list
 
-	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x"]
+	list2 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 
 	st.title("Scanner")
 
 	ft_select = st.sidebar.multiselect("Functionality",("Price (End Quarter)","Quarterly Price Change %","Retail Shareholder Change %","Promoter Holding Change",
 									   "Institutional Holding Change","Mutual Fund Holding Change","Insurance Companies Holding Change",
 									   "AIF Holding Change","FPI Holding Change","Pension Fund Holding Change",
-									   "Total Non Institutional Holding Change","Retail Shareholder Change","HNI Holding Change"))
+									   "Total Non Institutional Holding Change","Retail Shareholder Change","HNI Holding Change",
+							   		   "Other Non Institutional Holding Change"))
 
 	Q1 = st.sidebar.selectbox("Enter Start Quarter",('201312','201403','201406','201409','201412','201503','201506','201509','201512','201603','201606','201609','201612',
 						     '201703','201706','201709','201712','201803','201806','201809','201812','201903','201906','201909','201912','202003',
@@ -143,6 +145,13 @@ def main():
 					if Q1 in col:
 						hh1 = col
 						list2[20] = hh1
+						
+			if x == 'Other Non Institutional Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q1 in col:
+						onh1 = col
+						list2[24] = onh1
 
 	def get_Q2(Q2):
 
@@ -238,6 +247,13 @@ def main():
 					if Q2 in col:
 						hh2 = col
 						list2[21] = hh2
+						
+			if x == 'Other Non Institutional Holding Change':
+				list1 = get_list(x)
+				for col in list1:
+					if Q2 in col:
+						onh2 = col
+						list2[25] = onh2
 
 	get_Q1(Q1)
 	get_Q2(Q2)
@@ -304,6 +320,10 @@ def main():
 
 				if x == 'HNI Holding Change':
 					df1[x] = (df1[list2[21]]-df1[list2[20]]).round(2)
+					my_list1.append(x)
+					
+				if x == 'Other Non Institutional Holding Change':
+					df1[x] = (df1[list2[25]]-df1[list2[24]]).round(2)
 					my_list1.append(x)
 
 			df1 = df1[my_list1]
